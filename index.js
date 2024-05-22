@@ -96,16 +96,11 @@ app.get('/api/produtos/:numero', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
-
-//Simulação de Startup lento
 setTimeout(() => {
-	app.listen(3000, () => {
-		console.log("API Iniciada na porta 3000!!!")
-	})
-}, 10000)
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+  });
+}, 15000)
 
 // Optionally, you can handle closing connection when the app is shutting down
 process.on('SIGINT', () => {
