@@ -96,6 +96,16 @@ app.get('/api/produtos/:numero', (req, res) => {
   });
 });
 
+//Rota para Simulação de serviço entrando em falha
+app.get("/health", (req, res) => {
+	if (++acessos > 5) {
+		res.status(500).send({error: "Sistema em falha"})
+	}else{
+		res.status(200).send({health: "ok"})
+	}
+})
+
+//Simulação de uma aplicação mais lenta e como o K8S, sem a probe, dá 'ready' quando na verdade ainda não está pronto
 setTimeout(() => {
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
