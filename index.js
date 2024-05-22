@@ -100,7 +100,7 @@ app.get('/api/produtos/:numero', (req, res) => {
 
 //Rota para Simulação de serviço entrando em falha
 app.get("/health", (req, res) => {
-	if (++acessos > 5) {
+	if (++acessos > 3) {
 		res.status(500).send({error: "Sistema em falha"})
 	}else{
 		res.status(200).send({health: "ok"})
@@ -112,7 +112,7 @@ setTimeout(() => {
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
-}, 15000)
+}, 20000)
 
 // Optionally, you can handle closing connection when the app is shutting down
 process.on('SIGINT', () => {
