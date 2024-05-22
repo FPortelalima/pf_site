@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
         </style>
       </head>
       <body>
-        <h1>Felipe Portela v.2 - Pós | Inf net</h1>
+        <h1>Felipe Portela v.3 - Pós | Inf net</h1>
         <h2>Produtos</h2>
         <div id="produtos">
           ${produtosHtml}
