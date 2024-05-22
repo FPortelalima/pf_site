@@ -54,6 +54,7 @@ app.get('/', (req, res) => {
         <style>
           body {
             font-family: Arial, sans-serif;
+            background-color: hsla(0, 100%, 50%, 0.5);
           }
           .produto {
             border: 1px solid #ddd;
