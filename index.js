@@ -13,6 +13,8 @@ const connection = mysql.createConnection({
   port: '3305'
 });
 
+let acessos = 0; // Definindo a variável acessos e inicializando com 0
+
 // Verifica a conexão com o banco de dados
 connection.connect(error => {
   if (error) {
