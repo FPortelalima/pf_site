@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pfms-deploy
+  labels:
+    app: pfms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pfms
+  template:
+   metadata:
+     name: pfms-cnt
+     labels:
+      app: pfms
+   spec:
+    containers:
+      - name: pfms-cnt
+        image: fportelalima/pfms:latest
+        imagePullPolicy: Always
+        #k8s consegue manter uma app operando na troca de uma versão para outra sem esses gaps do POD estar ready quando na vdd a app n está totalmente em operação
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 2
+          failureThreshold: 1 #default é 3 
+    restartPolicy: Always

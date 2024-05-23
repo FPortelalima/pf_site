@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pfdb-deploy
+  labels:
+    app: pfdb
+    microservice: pfdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pfdb
+  template:
+    metadata:
+      name: pfdb-deploy
+      labels:
+        app: pfdb
+        microservice: pfdb
+    spec:
+      containers:
+        - name: pfdb-deploy
+          image: fportelalima/pfdb:latest
+          imagePullPolicy: Always
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: '6718'
+        #resources:
+          #limits:
+          #  cpu: "2"
+        #    memory: 1024Mi
+        #  requests:
+        #    cpu: "1"
+        #    memory: 512Mi
+      restartPolicy: Always
