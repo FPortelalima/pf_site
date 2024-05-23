@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Initialize') {
+            steps {
+                echo 'Build Iniciado!'
+            }
+        }
+        stage('GIT CHECKOUT'){
+            steps {
+                git(
+                    url: "https://github.com/FPortelalima/pf_site.git",
+                    branch: "main"
+                    )
+                script{
+                    TAG_VERSION = sh(script: "git rev-parse --short HEAD", returnStdout:true).trim()
+                }
+            }
+        }
+        stage('BUILD IMAGE'){
+            steps{
+                echo "GIT TAG VERSION: ${TAG_VERSION}"
+                sh "docker build . -f Dockerfile -t fportelalima/pfms:${TAG_VERSION}"
+                sh "docker tag fportelalima/pfms:${TAG_VERSION} fportelalima/pfms:latest"
+            }
+        }
+        stage("PUSH IMAGE"){
+            steps{
+                withCredentials([usernamePassword(credentialsId:'dh', usernameVariable:'USERNAME', passwordVariable: 'PASSWORD')]){
+                sh "docker login --username=$USERNAME --password=$PASSWORD"
+                sh "docker push fportelalima/pfms:${TAG_VERSION}"
+                sh "docker push fportelalima/pfms:latest"
+                }
+            }
+        }
+        stage("UPDATE K8S"){
+            steps{
+                sh "kubectl set image deploy/pfms-deploy pfms-cnt=fportelalima/pfms"
+                sh "kubectl rollout status deploy/pfms-deploy"
+            }
+        }
+    }
+}
