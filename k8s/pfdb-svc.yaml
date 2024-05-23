@@ -1,12 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pfdb-service
+  name: pfdb-svc
 spec:
   selector:
     app: pfdb
   type: ClusterIP
+  clusterIP: 10.97.8.48
   ports:
     - port: 3305
       targetPort: 3306
       protocol: TCP
+#10.98.75.6

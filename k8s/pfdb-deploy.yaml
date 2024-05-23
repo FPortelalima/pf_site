@@ -17,13 +17,22 @@ spec:
         app: pfdb
         microservice: pfdb
     spec:
+      volumes:
+        - name: pfdb-volume-pvc
+          persistentVolumeClaim:
+            claimName: pfdb-pvc
       containers:
         - name: pfdb-deploy
           image: fportelalima/pfdb:latest
+          volumeMounts:
+          - name: pfdb-volume-pvc
+            mountPath: /var/lib/mysql
           imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: '6718'
+      restartPolicy: Always     
+
         #resources:
           #limits:
           #  cpu: "2"
@@ -31,4 +40,3 @@ spec:
         #  requests:
         #    cpu: "1"
         #    memory: 512Mi
-      restartPolicy: Always

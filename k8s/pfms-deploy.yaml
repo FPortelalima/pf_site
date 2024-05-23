@@ -29,6 +29,6 @@ spec:
             path: /health
             port: 3000
           initialDelaySeconds: 20
-          periodSeconds: 2
+          periodSeconds: 5
           failureThreshold: 1 #default é 3 
     restartPolicy: Always
